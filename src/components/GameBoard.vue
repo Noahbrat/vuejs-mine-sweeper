@@ -37,11 +37,16 @@
     },
     methods: {
       onCellClick(w, h) {
+        var that = this;
         var clickCol = this.clicks[w];
         clickCol[h] = true;
         this.clicks.splice(w, 1, clickCol);
         if (this.mines[w][h] === false && this.numbers[w][h] === 0) {
-          //console.log('zero');
+          this.aroundCell(w, h).forEach(function (cell) {
+            if (!that.clicks[cell.w][cell.h]) {
+              that.onCellClick(cell.w, cell.h);
+            }
+          });
         }
       },
       aroundCell: function (w, h) {
