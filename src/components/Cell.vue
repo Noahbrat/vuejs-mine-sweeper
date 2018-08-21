@@ -8,7 +8,6 @@
     name: "Cell",
     data: function() {
       return {
-        // clicked: false,
         dice: [
           "",
           "dice-one",
@@ -29,20 +28,10 @@
       clicks: Array,
     },
     methods: {
-      cellClick() {
-        // this.clicked = true;
-        this.$emit('cell-click', this.w - 1, this.h - 1);
-      },
-      clicked() {
-        return this.clicks[this.w - 1][this.h - 1];
-      },
-      clickedClass() {
-        return this.clicked() ? 'clicked' : '';
-      }
     },
     computed: {
       isRevealed() {
-        return this.display;//this.clicked && this.display
+        return this.hasClicked && this.display
       },
       display() {
         return this.isMine ? "bomb" : this.dice[this.number];
