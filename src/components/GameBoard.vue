@@ -9,6 +9,7 @@
                           v-bind:number="numbers[w - 1][h - 1]"
                           v-bind:is-mine="mines[w - 1][h - 1]"
                           v-bind:has-clicked="clicks[w - 1][h - 1]"
+                          v-bind:alive="alive"
                     />
                 </div>
             </td>
@@ -23,6 +24,7 @@
     name: "GameBoard",
     data: function() {
       return {
+        alive: true,
         clicks: [],
         mines: [],
         numbers: [],
@@ -37,11 +39,13 @@
     },
     methods: {
       onCellClick(w, h) {
-        var that = this;
-        var clickCol = this.clicks[w];
-        clickCol[h] = true;
-        this.clicks.splice(w, 1, clickCol);
-        if (this.mines[w][h] === false && this.numbers[w][h] === 0) {
+        const that = this;
+        let clicks = this.clicks[w];
+        clicks[h] = true;
+        this.clicks.splice(w, 1, clicks);
+        if (this.mines[w][h]) {
+          this.alive = false;
+        } else if (this.numbers[w][h] === 0) {
           this.aroundCell(w, h).forEach(function (cell) {
             if (!that.clicks[cell.w][cell.h]) {
               that.onCellClick(cell.w, cell.h);
@@ -84,12 +88,8 @@
         });
       },
       clickedClass(w, h) {
-        return this.clicks[w][h] ? 'clicked' : '';
+        return this.clicks[w][h] ? (this.mines[w][h] ? 'mine-clicked' : 'clicked') : '';
       },
-    },
-    computed: {
-    },
-    beforeCreate: function() {
     },
     created: function() {
       for (let w = 0; w < this.width; w++) {
@@ -145,6 +145,10 @@
     }
     div.clicked {
         background-color: #bbb;
+        border: inset 1px #aaa;
+    }
+    div.mine-clicked {
+        background-color: red;
         border: inset 1px #aaa;
     }
 </style>
