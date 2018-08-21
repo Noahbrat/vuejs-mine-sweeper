@@ -26,12 +26,13 @@
       isMine: Boolean,
       hasClicked: Boolean,
       clicks: Array,
+      alive: Boolean,
     },
     methods: {
     },
     computed: {
       isRevealed() {
-        return this.hasClicked && this.display
+        return (this.isMine && !this.alive) || (this.hasClicked && this.display)
       },
       display() {
         return this.isMine ? "bomb" : this.dice[this.number];
