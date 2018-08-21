@@ -2,15 +2,15 @@
     <table>
         <tr v-for="h in height" :key="h">
             <td v-for="w in width" :key="w">
-                <Cell :id="'cell_' + w + '_' + h"
-                      v-bind:w="w"
-                      v-bind:h="h"
-                      v-bind:number="numbers[w - 1][h - 1]"
-                      v-bind:is-mine="mines[w - 1][h - 1]"
-                      v-bind:has-clicked="clicks[w - 1][h - 1]"
-                      v-bind:clicks="clicks"
-                      v-on:cell-click="onCellClick" />
-                <!--has-clicked="clicks[w - 1][h - 1]"-->
+                <div @click="onCellClick(w - 1, h - 1)" :class="clickedClass(w - 1, h - 1)">
+                    <Cell :id="'cell_' + w + '_' + h"
+                          v-bind:w="w"
+                          v-bind:h="h"
+                          v-bind:number="numbers[w - 1][h - 1]"
+                          v-bind:is-mine="mines[w - 1][h - 1]"
+                          v-bind:has-clicked="clicks[w - 1][h - 1]"
+                    />
+                </div>
             </td>
         </tr>
     </table>
@@ -36,21 +36,13 @@
       Cell
     },
     methods: {
-      onCellClick: function (w, h) {
-        this.clicks[w].splice(h, 1, true);
-//        this.clicks[w][h] = true;
-        console.log(this.clicks[w][h]);
-        console.log('game board cell click w:' + w + ' h:' +h);
+      onCellClick(w, h) {
+        var clickCol = this.clicks[w];
+        clickCol[h] = true;
+        this.clicks.splice(w, 1, clickCol);
         if (this.mines[w][h] === false && this.numbers[w][h] === 0) {
-          console.log('zero');
+          //console.log('zero');
         }
-        console.log(this.clicks);
-      },
-      test: function (w, h) {
-        if (this.clicks[w][h]) {
-          return true;
-        }
-        return this.clicks[w][h];
       },
       aroundCell: function (w, h) {
         let around = [];
@@ -88,9 +80,9 @@
       },
     },
     computed: {
-      didClick(w, h) {
-         return this.clicks[w][h];
-      }
+      clickedClass(w, h) {
+        return this.clicks[w][h] ? 'clicked' : '';
+      },
     },
     beforeCreate: function() {
     },
@@ -138,5 +130,16 @@
         vertical-align: middle;
         text-align: center;
         cursor: pointer;
+    }
+    div {
+        width: 100%;
+        height: 100%;
+        padding: 3px 0 0;
+        background-color: #ddd;
+        border: solid 1px #ddd;
+    }
+    div.clicked {
+        background-color: #bbb;
+        border: inset 1px #aaa;
     }
 </style>

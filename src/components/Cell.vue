@@ -1,7 +1,5 @@
 <template>
-    <div @click="cellClick()" :class="clickedClass">
-        <font-awesome-icon v-if="isRevealed" :icon="display" class="game-cell" />
-    </div>
+    <font-awesome-icon v-if="isRevealed" :icon="display" class="game-cell" />
 </template>
 
 <script>
@@ -56,17 +54,6 @@
 </script>
 
 <style scoped>
-    div {
-        width: 100%;
-        height: 100%;
-        padding: 3px 0 0;
-        background-color: #ddd;
-        border: solid 1px #ddd;
-    }
-    div.clicked {
-        background-color: #bbb;
-        border: inset 1px #aaa;
-    }
     .game-cell {
         width: 22px;
         height: 22px;
