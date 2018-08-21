@@ -78,11 +78,11 @@
           that.numbers[cell.w][cell.h]++;
         });
       },
-    },
-    computed: {
       clickedClass(w, h) {
         return this.clicks[w][h] ? 'clicked' : '';
       },
+    },
+    computed: {
     },
     beforeCreate: function() {
     },
