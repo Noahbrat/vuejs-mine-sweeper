@@ -25,17 +25,17 @@
       number: Number,
       isMine: Boolean,
       hasClicked: Boolean,
-      clicks: Array,
+      flagged: Boolean,
       alive: Boolean,
     },
     methods: {
     },
     computed: {
       isRevealed() {
-        return (this.isMine && !this.alive) || (this.hasClicked && this.display)
+        return (this.isMine && !this.alive) || this.flagged || (this.hasClicked && this.display)
       },
       display() {
-        return this.isMine ? "bomb" : this.dice[this.number];
+        return this.isMine ? "bomb" : (this.flagged ? 'flag' : this.dice[this.number]);
       },
     },
     components: {
