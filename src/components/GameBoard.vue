@@ -10,13 +10,22 @@
                               v-bind:number="numbers[w - 1][h - 1]"
                               v-bind:is-mine="mines[w - 1][h - 1]"
                               v-bind:has-clicked="clicks[w - 1][h - 1]"
+                              v-bind:flagged="flags[w - 1][h -1]"
                               v-bind:alive="alive"
                         />
                     </div>
                 </td>
             </tr>
         </table>
-        <button @click="newGame">New Game</button>
+        <form class="form">
+            <span class="switch-field">
+              <input type="radio" id="switch_left" name="switch" v-model="flagToggle" value="mine" checked/>
+              <label for="switch_left">Mine</label>
+              <input type="radio" id="switch_right" name="switch" v-model="flagToggle" value="flag" />
+              <label for="switch_right">Flag</label>
+            </span>
+            <button @click="newGame" type="button">New Game</button>
+        </form>
     </span>
 </template>
 
@@ -32,6 +41,8 @@
         clicks: [],
         mines: [],
         numbers: [],
+        flags: [],
+        flagToggle: "mine",
       }
     },
     props: {
@@ -44,17 +55,23 @@
     methods: {
       onCellClick(w, h) {
         const that = this;
-        let clicks = this.clicks[w];
-        clicks[h] = true;
-        this.clicks.splice(w, 1, clicks);
-        if (this.mines[w][h]) {
-          this.alive = false;
-        } else if (this.numbers[w][h] === 0) {
-          this.aroundCell(w, h).forEach(function (cell) {
-            if (!that.clicks[cell.w][cell.h]) {
-              that.onCellClick(cell.w, cell.h);
-            }
-          });
+        if (this.flagToggle === 'flag') {
+          let flags = this.flags[w];
+          flags[h] = !flags[h];
+          this.flags.splice(w, 1, flags);
+        } else if (!this.flags[w][h]) {
+          let clicks = this.clicks[w];
+          clicks[h] = true;
+          this.clicks.splice(w, 1, clicks);
+          if (this.mines[w][h]) {
+            this.alive = false;
+          } else if (this.numbers[w][h] === 0) {
+            this.aroundCell(w, h).forEach(function (cell) {
+              if (!that.clicks[cell.w][cell.h]) {
+                that.onCellClick(cell.w, cell.h);
+              }
+            });
+          }
         }
       },
       newGame() {
@@ -62,14 +79,17 @@
           let clicks = this.clicks[w];
           let mines = this.mines[w];
           let numbers = this.numbers[w];
+          let flags = this.flags[w];
           for (let h = 0; h < this.height; h++) {
             clicks[h] = false;
             mines[h] = false;
             numbers[h] = 0;
+            flags[h] = false;
           }
           this.clicks.splice(w, 1, clicks);
           this.mines.splice(w, 1, mines);
-          this.numbers.splice(2, 1, numbers);
+          this.numbers.splice(w, 1, numbers);
+          this.flags.splice(w, 1, flags);
         }
         this.alive = true;
         let assignedCnt = 0;
@@ -134,8 +154,11 @@
         if (typeof this.numbers[w] === "undefined") {
           this.numbers[w] = [];
         }
+        if (typeof this.flags[w] === "undefined") {
+          this.flags[w] = [];
+        }
       }
-      this.mineCnt = Math.floor((this.width * this.height) / 10);
+      this.mineCnt = Math.floor((this.width * this.height) * .12);
       this.newGame();
     },
   }
