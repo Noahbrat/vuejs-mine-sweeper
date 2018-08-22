@@ -1,20 +1,23 @@
 <template>
-    <table>
-        <tr v-for="h in height" :key="h">
-            <td v-for="w in width" :key="w">
-                <div @click="onCellClick(w - 1, h - 1)" :class="clickedClass(w - 1, h - 1)">
-                    <Cell :id="'cell_' + w + '_' + h"
-                          v-bind:w="w"
-                          v-bind:h="h"
-                          v-bind:number="numbers[w - 1][h - 1]"
-                          v-bind:is-mine="mines[w - 1][h - 1]"
-                          v-bind:has-clicked="clicks[w - 1][h - 1]"
-                          v-bind:alive="alive"
-                    />
-                </div>
-            </td>
-        </tr>
-    </table>
+    <span>
+        <table>
+            <tr v-for="h in height" :key="h">
+                <td v-for="w in width" :key="w">
+                    <div @click="onCellClick(w - 1, h - 1)" :class="clickedClass(w - 1, h - 1)">
+                        <Cell :id="'cell_' + w + '_' + h"
+                              v-bind:w="w"
+                              v-bind:h="h"
+                              v-bind:number="numbers[w - 1][h - 1]"
+                              v-bind:is-mine="mines[w - 1][h - 1]"
+                              v-bind:has-clicked="clicks[w - 1][h - 1]"
+                              v-bind:alive="alive"
+                        />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button @click="newGame">New Game</button>
+    </span>
 </template>
 
 <script>
@@ -56,19 +59,28 @@
       },
       newGame() {
         for (let w = 0; w < this.width; w++) {
+          let clicks = this.clicks[w];
+          let mines = this.mines[w];
+          let numbers = this.numbers[w];
           for (let h = 0; h < this.height; h++) {
-            this.clicks[w][h] = false;
-            this.mines[w][h] = false;
-            this.numbers[w][h] = 0;
+            clicks[h] = false;
+            mines[h] = false;
+            numbers[h] = 0;
           }
+          this.clicks.splice(w, 1, clicks);
+          this.mines.splice(w, 1, mines);
+          this.numbers.splice(2, 1, numbers);
         }
+        this.alive = true;
         let assignedCnt = 0;
         while (assignedCnt < this.mineCnt) {
           const w = Math.floor(Math.random() * this.width);
           const h = Math.floor(Math.random() * this.height);
           if (!this.mines[w][h]) {
+            let mines = this.mines[w];
             assignedCnt++;
-            this.mines[w][h] = true;
+            mines[h] = true;
+            this.mines.splice(w, 1, mines);
             this.incrementAround(w, h);
           }
         }
