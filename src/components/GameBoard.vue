@@ -25,6 +25,7 @@
     data: function() {
       return {
         alive: true,
+        mineCnt: 0,
         clicks: [],
         mines: [],
         numbers: [],
@@ -51,6 +52,25 @@
               that.onCellClick(cell.w, cell.h);
             }
           });
+        }
+      },
+      newGame() {
+        for (let w = 0; w < this.width; w++) {
+          for (let h = 0; h < this.height; h++) {
+            this.clicks[w][h] = false;
+            this.mines[w][h] = false;
+            this.numbers[w][h] = 0;
+          }
+        }
+        let assignedCnt = 0;
+        while (assignedCnt < this.mineCnt) {
+          const w = Math.floor(Math.random() * this.width);
+          const h = Math.floor(Math.random() * this.height);
+          if (!this.mines[w][h]) {
+            assignedCnt++;
+            this.mines[w][h] = true;
+            this.incrementAround(w, h);
+          }
         }
       },
       aroundCell: function (w, h) {
@@ -102,23 +122,9 @@
         if (typeof this.numbers[w] === "undefined") {
           this.numbers[w] = [];
         }
-        for (let h = 0; h < this.height; h++) {
-          this.clicks[w][h] = false;
-          this.mines[w][h] = false;
-          this.numbers[w][h] = 0;
-        }
       }
-      let assignedCnt = 0;
-      const mineCnt = Math.floor((this.width * this.height) / 10);
-      while (assignedCnt < mineCnt) {
-        const w = Math.floor(Math.random() * this.width);
-        const h = Math.floor(Math.random() * this.height);
-        if (!this.mines[w][h]) {
-          assignedCnt++;
-          this.mines[w][h] = true;
-          this.incrementAround(w, h);
-        }
-      }
+      this.mineCnt = Math.floor((this.width * this.height) / 10);
+      this.newGame();
     },
   }
 </script>
