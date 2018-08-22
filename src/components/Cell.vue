@@ -35,7 +35,7 @@
         return (this.isMine && !this.alive) || this.flagged || (this.hasClicked && this.display)
       },
       display() {
-        return this.isMine ? "bomb" : (this.flagged ? 'flag' : this.dice[this.number]);
+        return this.flagged ? 'flag' : (this.isMine ? "bomb" : this.dice[this.number]);
       },
     },
     components: {
