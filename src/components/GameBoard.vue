@@ -18,12 +18,10 @@
             </tr>
         </table>
         <form class="form">
-            <span class="switch-field">
-              <input type="radio" id="switch_left" name="switch" v-model="flagToggle" value="mine" checked/>
-              <label for="switch_left">Mine</label>
-              <input type="radio" id="switch_right" name="switch" v-model="flagToggle" value="flag" />
-              <label for="switch_right">Flag</label>
-            </span>
+            <input type="radio" id="check_mine" name="switch" v-model="flagToggle" value="mine" checked/>
+            <label for="check_mine">Mine</label> &nbsp;
+            <input type="radio" id="flag_it" name="switch" v-model="flagToggle" value="flag" />
+            <label for="flag_it">Flag</label> &nbsp;
             <button @click="newGame" type="button">New Game</button>
         </form>
     </span>
