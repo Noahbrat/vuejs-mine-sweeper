@@ -3,7 +3,7 @@
         <table>
             <tr v-for="h in height" :key="h">
                 <td v-for="w in width" :key="w">
-                    <div @click="onCellClick(w - 1, h - 1)" :class="clickedClass(w - 1, h - 1)">
+                    <div @click="onCellClick(w - 1, h - 1)" :class="divClass(w - 1, h - 1)">
                         <Cell :id="'cell_' + w + '_' + h"
                               v-bind:w="w"
                               v-bind:h="h"
@@ -163,8 +163,8 @@
           that.numbers[cell.w][cell.h]++;
         });
       },
-      clickedClass(w, h) {
-        return this.clicks[w][h] ? (this.mines[w][h] ? 'mine-clicked' : 'clicked') : '';
+      divClass(w, h) {
+        return this.flags[w][h] ? 'flagged' : (this.clicks[w][h] ? (this.mines[w][h] ? 'mine-clicked' : 'clicked') : '');
       },
     },
     computed: {
@@ -223,5 +223,9 @@
     div.mine-clicked {
         background-color: red;
         border: inset 1px #aaa;
+    }
+    div.flagged {
+        color: teal;
+        border: inset 1px #ccc;
     }
 </style>
