@@ -51,7 +51,7 @@
       Cell
     },
     methods: {
-      onCellClick(w, h) {
+      onCellClick(w, h, isFlag = (this.flagToggle === 'flag')) {
         const that = this;
         if (this.clicks[w][h] && this.numbers[w][h] > 0 && !this.flags[w][h]) {
           let flagsAround = 0
@@ -64,11 +64,11 @@
           if (flagsAround >= that.numbers[w][h]) {
             aroundMe.forEach(function (cell) {
               if (!that.clicks[cell.w][cell.h] && !that.flags[cell.w][cell.h]) {
-                that.onCellClick(cell.w, cell.h);
+                that.onCellClick(cell.w, cell.h, false);
               }
             })
           }
-        } else if (this.flagToggle === 'flag') {
+        } else if (isFlag) {
           let flags = this.flags[w];
           flags[h] = !flags[h];
           this.flags.splice(w, 1, flags);
@@ -81,7 +81,7 @@
           } else if (this.numbers[w][h] === 0) {
             this.aroundCell(w, h).forEach(function (cell) {
               if (!that.clicks[cell.w][cell.h]) {
-                that.onCellClick(cell.w, cell.h);
+                that.onCellClick(cell.w, cell.h, false);
               }
             });
           }
