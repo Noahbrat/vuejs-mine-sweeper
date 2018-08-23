@@ -53,7 +53,22 @@
     methods: {
       onCellClick(w, h) {
         const that = this;
-        if (this.flagToggle === 'flag') {
+        if (this.clicks[w][h] && this.numbers[w][h] > 0 && !this.flags[w][h]) {
+          let flagsAround = 0
+          const aroundMe = this.aroundCell(w, h)
+          aroundMe.forEach(function (cell) {
+            if (that.flags[cell.w][cell.h]) {
+              flagsAround++
+            }
+          })
+          if (flagsAround >= that.numbers[w][h]) {
+            aroundMe.forEach(function (cell) {
+              if (!that.clicks[cell.w][cell.h] && !that.flags[cell.w][cell.h]) {
+                that.onCellClick(cell.w, cell.h);
+              }
+            })
+          }
+        } else if (this.flagToggle === 'flag') {
           let flags = this.flags[w];
           flags[h] = !flags[h];
           this.flags.splice(w, 1, flags);
