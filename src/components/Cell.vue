@@ -27,15 +27,16 @@
       hasClicked: Boolean,
       flagged: Boolean,
       alive: Boolean,
+      victory: Boolean,
     },
     methods: {
     },
     computed: {
       isRevealed() {
-        return (this.isMine && !this.alive) || this.flagged || (this.hasClicked && this.display)
+        return (this.isMine && (!this.alive || this.victory)) || this.flagged || (this.hasClicked && this.display);
       },
       display() {
-        return this.flagged ? 'flag' : (this.isMine ? "bomb" : this.dice[this.number]);
+        return this.flagged ? 'flag' : (this.isMine ? (this.victory ? 'flag' : 'bomb') : this.dice[this.number]);
       },
     },
     components: {
