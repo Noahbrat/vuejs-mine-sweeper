@@ -55,7 +55,7 @@
       Cell
     },
     methods: {
-      onCellClick(w, h, isFlag = (this.flagToggle === 'flag')) {
+      onCellClick(w, h, isFlag = this.isFlagging) {
         const that = this;
         if (this.clicks[w][h] && this.numbers[w][h] > 0 && !this.flags[w][h]) {
           let flagsAround = 0
@@ -170,6 +170,9 @@
     computed: {
       remaining() {
         return (this.width * this.height) - this.mineCnt;
+      },
+      isFlagging() {
+        return (this.flagToggle === 'flag');
       }
     },
     created: function() {
