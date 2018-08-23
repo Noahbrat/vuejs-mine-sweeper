@@ -12,6 +12,7 @@
                               v-bind:has-clicked="clicks[w - 1][h - 1]"
                               v-bind:flagged="flags[w - 1][h -1]"
                               v-bind:alive="alive"
+                              v-bind:victory="victory"
                         />
                     </div>
                 </td>
@@ -24,6 +25,7 @@
             <label for="flag_it">Flag</label> &nbsp;
             <button @click="newGame" type="button">New Game</button>
         </form>
+        <h1 v-if="victory">You Win!</h1>
     </span>
 </template>
 
@@ -35,7 +37,9 @@
     data: function() {
       return {
         alive: true,
+        victory: false,
         mineCnt: 0,
+        revealed: 0,
         clicks: [],
         mines: [],
         numbers: [],
@@ -69,21 +73,26 @@
             })
           }
         } else if (isFlag) {
-          let flags = this.flags[w];
-          flags[h] = !flags[h];
-          this.flags.splice(w, 1, flags);
-        } else if (!this.flags[w][h]) {
-          let clicks = this.clicks[w];
-          clicks[h] = true;
-          this.clicks.splice(w, 1, clicks);
+          let flags = this.flags[w]
+          flags[h] = !flags[h]
+          this.flags.splice(w, 1, flags)
+        } else if (!this.flags[w][h] && !this.clicks[w][h]) {
+          let clicks = this.clicks[w]
+          clicks[h] = true
+          this.clicks.splice(w, 1, clicks)
           if (this.mines[w][h]) {
-            this.alive = false;
-          } else if (this.numbers[w][h] === 0) {
-            this.aroundCell(w, h).forEach(function (cell) {
-              if (!that.clicks[cell.w][cell.h]) {
-                that.onCellClick(cell.w, cell.h, false);
-              }
-            });
+            this.alive = false
+          } else {
+            this.revealed++;
+            if (this.revealed === this.remaining) {
+              this.victory = true;
+            } else if (this.numbers[w][h] === 0) {
+              this.aroundCell(w, h).forEach(function (cell) {
+                if (!that.clicks[cell.w][cell.h]) {
+                  that.onCellClick(cell.w, cell.h, false)
+                }
+              })
+            }
           }
         }
       },
@@ -105,6 +114,8 @@
           this.flags.splice(w, 1, flags);
         }
         this.alive = true;
+        this.victory = false;
+        this.revealed = 0;
         let assignedCnt = 0;
         while (assignedCnt < this.mineCnt) {
           const w = Math.floor(Math.random() * this.width);
@@ -155,6 +166,11 @@
       clickedClass(w, h) {
         return this.clicks[w][h] ? (this.mines[w][h] ? 'mine-clicked' : 'clicked') : '';
       },
+    },
+    computed: {
+      remaining() {
+        return (this.width * this.height) - this.mineCnt;
+      }
     },
     created: function() {
       for (let w = 0; w < this.width; w++) {
