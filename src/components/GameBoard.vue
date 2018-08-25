@@ -3,18 +3,17 @@
         <table>
             <tr v-for="h in height" :key="h">
                 <td v-for="w in width" :key="w">
-                    <div @click="onCellClick(w - 1, h - 1)" :class="divClass(w - 1, h - 1)">
-                        <Cell :id="'cell_' + w + '_' + h"
-                              v-bind:w="w"
-                              v-bind:h="h"
-                              v-bind:number="numbers[w - 1][h - 1]"
-                              v-bind:is-mine="mines[w - 1][h - 1]"
-                              v-bind:has-clicked="clicks[w - 1][h - 1]"
-                              v-bind:flagged="flags[w - 1][h -1]"
-                              v-bind:alive="alive"
-                              v-bind:victory="victory"
-                        />
-                    </div>
+                    <Cell :id="'cell_' + w + '_' + h"
+                          v-bind:w="w"
+                          v-bind:h="h"
+                          v-bind:number="numbers[w - 1][h - 1]"
+                          v-bind:is-mine="mines[w - 1][h - 1]"
+                          v-bind:has-clicked="clicks[w - 1][h - 1]"
+                          v-bind:flagged="flags[w - 1][h -1]"
+                          v-bind:alive="alive"
+                          v-bind:victory="victory"
+                          v-on:cell-click="onCellClick"
+                    />
                 </td>
             </tr>
         </table>
@@ -56,6 +55,10 @@
     },
     methods: {
       onCellClick(w, h, isFlag = this.isFlagging) {
+        if (w.constructor === Array) {
+          h = w[1];
+          w = w[0];
+        }
         const that = this;
         if (this.clicks[w][h] && this.numbers[w][h] > 0 && !this.flags[w][h]) {
           let flagsAround = 0
@@ -163,9 +166,6 @@
           that.numbers[cell.w][cell.h]++;
         });
       },
-      divClass(w, h) {
-        return this.flags[w][h] ? 'flagged' : (this.clicks[w][h] ? (this.mines[w][h] ? 'mine-clicked' : 'clicked') : '');
-      },
     },
     computed: {
       remaining() {
@@ -208,24 +208,5 @@
         vertical-align: middle;
         text-align: center;
         cursor: pointer;
-    }
-    div {
-        width: 100%;
-        height: 100%;
-        padding: 3px 0 0;
-        background-color: #ddd;
-        border: solid 1px #ddd;
-    }
-    div.clicked {
-        background-color: #bbb;
-        border: inset 1px #aaa;
-    }
-    div.mine-clicked {
-        background-color: red;
-        border: inset 1px #aaa;
-    }
-    div.flagged {
-        color: teal;
-        border: inset 1px #ccc;
     }
 </style>

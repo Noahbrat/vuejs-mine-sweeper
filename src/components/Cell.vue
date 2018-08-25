@@ -57,6 +57,13 @@
         width: 22px;
         height: 22px;
     }
+    div {
+        width: 100%;
+        height: 100%;
+        padding: 3px 0 0;
+        background-color: #ddd;
+        border: solid 1px #ddd;
+    }
     div.clicked {
         background-color: #bbb;
         border: inset 1px #aaa;
