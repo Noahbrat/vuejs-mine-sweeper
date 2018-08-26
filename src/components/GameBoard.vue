@@ -1,5 +1,5 @@
 <template>
-    <span>
+    <div class="board-container">
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" />
         <table>
@@ -20,7 +20,7 @@
             </tr>
         </table>
         <h1 v-if="victory">You Win!</h1>
-    </span>
+    </div>
 </template>
 
 <script>
@@ -199,6 +199,9 @@
 </script>
 
 <style scoped>
+    .board-container {
+        display: inline-block;
+    }
     table {
         margin: auto;
         border-spacing: 0;
