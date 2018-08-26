@@ -1,5 +1,7 @@
 <template>
     <span>
+        <button><font-awesome-icon @click="newGame" :icon="smiley" class="butz" /></button>
+        <button><font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" /></button>
         <table>
             <tr v-for="h in height" :key="h">
                 <td v-for="w in width" :key="w">
@@ -17,13 +19,6 @@
                 </td>
             </tr>
         </table>
-        <form class="form">
-            <input type="radio" id="check_mine" name="switch" v-model="flagToggle" value="mine" checked/>
-            <label for="check_mine">Mine</label> &nbsp;
-            <input type="radio" id="flag_it" name="switch" v-model="flagToggle" value="flag" />
-            <label for="flag_it">Flag</label> &nbsp;
-            <button @click="newGame" type="button">New Game</button>
-        </form>
         <h1 v-if="victory">You Win!</h1>
     </span>
 </template>
@@ -43,7 +38,7 @@
         mines: [],
         numbers: [],
         flags: [],
-        flagToggle: "mine",
+        isFlagging: false,
       }
     },
     props: {
@@ -54,6 +49,9 @@
       Cell
     },
     methods: {
+      flagToggle() {
+        this.isFlagging = !this.isFlagging;
+      },
       onCellClick(w, h, isFlag = this.isFlagging) {
         if (w.constructor === Array) {
           h = w[1];
@@ -171,8 +169,11 @@
       remaining() {
         return (this.width * this.height) - this.mineCnt;
       },
-      isFlagging() {
-        return (this.flagToggle === 'flag');
+      smiley() {
+        return this.victory ? 'grin-hearts' : (this.alive ? 'smile' : 'angry');
+      },
+      flagOrMine() {
+        return this.isFlagging ? 'flag' : 'bomb';
       }
     },
     created: function() {
@@ -208,5 +209,13 @@
         vertical-align: middle;
         text-align: center;
         cursor: pointer;
+    }
+    button {
+        margin: 5px;
+    }
+    .butz {
+        width: 25px;
+        height: 25px;
+        margin: 2px;
     }
 </style>
