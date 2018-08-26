@@ -211,7 +211,7 @@
         cursor: pointer;
     }
     .fa-flag {
-        color: teal;
+        color: purple;
     }
     .fa-bomb {
     }

@@ -86,6 +86,24 @@
         background-color: red;
     }
     .flagged {
+        color: purple;
+    }
+    .fa-dice-one {
+        color: green;
+    }
+    .fa-dice-two {
         color: teal;
+    }
+    .fa-dice-three {
+        color: blue;
+    }
+    .fa-dice-four {
+        color: blueviolet;
+    }
+    .fa-dice-five {
+        color: rebeccapurple;
+    }
+    .fa-dice-six {
+        color: mediumvioletred;
     }
 </style>
