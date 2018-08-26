@@ -33,7 +33,9 @@
     },
     methods: {
       onCellClick() {
-        this.$emit('cell-click', [this.w - 1, this.h - 1]);
+        if (this.alive) {
+          this.$emit('cell-click', [this.w - 1, this.h - 1]);
+        }
       }
     },
     computed: {
