@@ -46,7 +46,7 @@
         return this.flagged ? 'flag' : (this.isMine ? (this.victory ? 'flag' : 'bomb') : this.dice[this.number]);
       },
       isClass() {
-        return this.flagged ? 'flagged' : (this.hasClicked ? (this.isMine ? 'mine-clicked' : 'clicked') : '');
+        return (this.flagged || (this.victory && this.isMine)) ? 'flagged' : (this.hasClicked ? (this.isMine ? 'mine-clicked' : 'clicked') : '');
       }
     },
     components: {
