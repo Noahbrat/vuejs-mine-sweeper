@@ -1,7 +1,7 @@
 <template>
-    <div @click="onCellClick()" :class="isClass">
+    <td @click="onCellClick()" :class="isClass">
         <font-awesome-icon v-if="isRevealed" :icon="display" class="game-cell" />
-    </div>
+    </td>
 </template>
 
 <script>
@@ -46,7 +46,7 @@
         return this.flagged ? 'flag' : (this.isMine ? (this.victory ? 'flag' : 'bomb') : this.dice[this.number]);
       },
       isClass() {
-        return (this.flagged || (this.victory && this.isMine)) ? 'flagged' : (this.hasClicked ? (this.isMine ? 'mine-clicked' : 'clicked') : '');
+        return (this.flagged || (this.victory && this.isMine)) ? 'flagged' : (this.hasClicked ? (this.isMine ? 'mine clicked' : 'clicked') : '');
       }
     },
     components: {
@@ -58,24 +58,34 @@
     .game-cell {
         width: 22px;
         height: 22px;
+        margin-top: 3px;
     }
-    div {
-        width: 100%;
-        height: 100%;
-        padding: 3px 0 0;
-        background-color: #ddd;
-        border: solid 1px #ddd;
+    tr:first-child td {
+        border-top: solid 1px slategray;
     }
-    div.clicked {
-        background-color: #bbb;
-        border: inset 1px #aaa;
+    td:first-child {
+        border-left: solid 1px slategray;
     }
-    div.mine-clicked {
+    td {
+        width: 30px;
+        height: 30px;
+        background-color: #ccc;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+        padding: 0;
+        border-bottom: solid 1px slategray;
+        border-right: solid 1px slategray;
+    }
+    td.clicked {
+        border-bottom: inset 1px darkslategray;
+        border-right: inset 1px darkslategray;
+        background-color: #aaa;
+    }
+    td.mine {
         background-color: red;
-        border: inset 1px #aaa;
     }
-    div.flagged {
+    .flagged {
         color: teal;
-        border: inset 1px #ccc;
     }
 </style>

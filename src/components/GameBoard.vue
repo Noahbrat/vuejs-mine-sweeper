@@ -4,19 +4,17 @@
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" />
         <table>
             <tr v-for="h in height" :key="h">
-                <td v-for="w in width" :key="w">
-                    <Cell :id="'cell_' + w + '_' + h"
-                          v-bind:w="w"
-                          v-bind:h="h"
-                          v-bind:number="numbers[w - 1][h - 1]"
-                          v-bind:is-mine="mines[w - 1][h - 1]"
-                          v-bind:has-clicked="clicks[w - 1][h - 1]"
-                          v-bind:flagged="flags[w - 1][h -1]"
-                          v-bind:alive="alive"
-                          v-bind:victory="victory"
-                          v-on:cell-click="onCellClick"
-                    />
-                </td>
+                <Cell v-for="w in width" :key="w"
+                      v-bind:w="w"
+                      v-bind:h="h"
+                      v-bind:number="numbers[w - 1][h - 1]"
+                      v-bind:is-mine="mines[w - 1][h - 1]"
+                      v-bind:has-clicked="clicks[w - 1][h - 1]"
+                      v-bind:flagged="flags[w - 1][h -1]"
+                      v-bind:alive="alive"
+                      v-bind:victory="victory"
+                      v-on:cell-click="onCellClick"
+                />
             </tr>
         </table>
         <h1 v-if="victory">You Win!</h1>
@@ -205,14 +203,6 @@
     table {
         margin: auto;
         border-spacing: 0;
-    }
-    td {
-        width: 30px;
-        height: 30px;
-        background-color: #ccc;
-        vertical-align: middle;
-        text-align: center;
-        cursor: pointer;
     }
     .butz {
         width: 35px;
