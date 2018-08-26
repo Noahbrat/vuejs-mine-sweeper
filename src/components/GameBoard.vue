@@ -198,11 +198,13 @@
 
 <style scoped>
     .board-container {
-        display: inline-block;
+        display: block;
+        width: 100%;
     }
     table {
         margin: auto;
         border-spacing: 0;
+        width: 100%;
     }
     .butz {
         width: 35px;
