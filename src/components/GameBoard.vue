@@ -1,7 +1,7 @@
 <template>
     <span>
-        <button><font-awesome-icon @click="newGame" :icon="smiley" class="butz" /></button>
-        <button><font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" /></button>
+        <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
+        <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" />
         <table>
             <tr v-for="h in height" :key="h">
                 <td v-for="w in width" :key="w">
@@ -116,6 +116,7 @@
         }
         this.alive = true;
         this.victory = false;
+        this.isFlagging = false;
         this.revealed = 0;
         let assignedCnt = 0;
         while (assignedCnt < this.mineCnt) {
@@ -210,12 +211,24 @@
         text-align: center;
         cursor: pointer;
     }
-    button {
-        margin: 5px;
-    }
     .butz {
-        width: 25px;
-        height: 25px;
-        margin: 2px;
+        width: 35px;
+        height: 35px;
+        margin: 10px 18px;
+        cursor: pointer;
+    }
+    .fa-flag {
+        color: teal;
+    }
+    .fa-bomb {
+    }
+    .fa-angry {
+        color: darkred;
+    }
+    .fa-smile {
+        color: orange;
+    }
+    .fa-grin-hearts {
+        color: orangered;
     }
 </style>
