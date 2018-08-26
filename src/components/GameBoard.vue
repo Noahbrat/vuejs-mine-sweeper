@@ -198,8 +198,7 @@
 
 <style scoped>
     .board-container {
-        display: block;
-        width: 100%;
+        display: inline-block;
     }
     table {
         margin: auto;
