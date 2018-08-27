@@ -56,9 +56,8 @@
 
 <style scoped>
     .game-cell {
-        width: 80%;
-        height: 80%;
-        margin-top: 3px;
+        width: 22px;
+        height: 22px;
     }
     tr:first-child td {
         border-top: solid 1px slategray;
