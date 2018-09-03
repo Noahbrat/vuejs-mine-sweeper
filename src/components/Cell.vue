@@ -58,6 +58,7 @@
     .game-cell {
         width: 22px;
         height: 22px;
+        margin-top: 2px;
     }
     tr:first-child td {
         border-top: solid 1px slategray;
