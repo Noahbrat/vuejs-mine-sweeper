@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <GameBoard v-bind:width=10 v-bind:height=10 />
+    <GameBoard v-bind:width=12 v-bind:height=16 />
   </div>
 </template>
 
@@ -22,6 +22,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
