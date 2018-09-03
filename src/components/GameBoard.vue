@@ -1,5 +1,6 @@
 <template>
     <div class="board-container">
+        {{gameTime}}
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" />
         <table>
@@ -17,7 +18,7 @@
                 />
             </tr>
         </table>
-        <h1 v-if="victory">You Win!</h1>
+        <h2 v-if="victory">You Win!</h2>
     </div>
 </template>
 
@@ -37,6 +38,10 @@
         numbers: [],
         flags: [],
         isFlagging: false,
+        startTime: 0,
+        endTime: 0,
+        gameTime: 0,
+        timeout: false,
       }
     },
     props: {
@@ -47,6 +52,14 @@
       Cell
     },
     methods: {
+      setGameTime() {
+        if (!this.startTime) {
+          this.gameTime = 0;
+        } else {
+          let endTime = (this.endTime ? this.endTime : new Date());
+          this.gameTime = Math.round((endTime - this.startTime) / 1000);
+        }
+      },
       flagToggle() {
         this.isFlagging = !this.isFlagging;
       },
@@ -79,12 +92,24 @@
           let clicks = this.clicks[w]
           clicks[h] = true
           this.clicks.splice(w, 1, clicks)
+          if (!this.startTime) {
+            this.startTime = new Date();
+            this.timeout = setInterval(this.setGameTime, 1000);
+          }
           if (this.mines[w][h]) {
-            this.alive = false
+            this.alive = false;
+            this.endTime = new Date();
+            if (this.timeout) {
+              clearInterval(this.timeout);
+            }
           } else {
             this.revealed++;
             if (this.revealed === this.remaining) {
               this.victory = true;
+              this.endTime = new Date();
+              if (this.timeout) {
+                clearInterval(this.timeout);
+              }
             } else if (this.numbers[w][h] === 0) {
               this.aroundCell(w, h).forEach(function (cell) {
                 if (!that.clicks[cell.w][cell.h]) {
@@ -116,6 +141,9 @@
         this.victory = false;
         this.isFlagging = false;
         this.revealed = 0;
+        this.startTime = 0;
+        this.endTime = 0;
+        this.gameTime = 0;
         let assignedCnt = 0;
         while (assignedCnt < this.mineCnt) {
           const w = Math.floor(Math.random() * this.width);
@@ -173,7 +201,7 @@
       },
       flagOrMine() {
         return this.isFlagging ? 'flag' : 'bomb';
-      }
+      },
     },
     created: function() {
       for (let w = 0; w < this.width; w++) {
@@ -206,9 +234,9 @@
         width: 100%;
     }
     .butz {
-        width: 35px;
-        height: 35px;
-        margin: 10px 18px;
+        width: 30px;
+        height: 30px;
+        margin: 8px 15px;
         cursor: pointer;
     }
     .fa-flag {
