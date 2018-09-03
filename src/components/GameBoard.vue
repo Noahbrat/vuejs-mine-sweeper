@@ -1,6 +1,6 @@
 <template>
     <div class="board-container">
-        {{gameTime}}
+        <span class="time">{{gameTime}}</span>
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" />
         <table>
@@ -238,6 +238,13 @@
         height: 30px;
         margin: 8px 15px;
         cursor: pointer;
+    }
+    .time {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 36px;
+        margin: -30px 10px 0;
+        display: inline-block;
+        vertical-align: text-top;
     }
     .fa-flag {
         color: purple;
