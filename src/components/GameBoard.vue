@@ -1,6 +1,6 @@
 <template>
     <div class="board-container">
-        <span class="time">{{gameTime}}</span>
+        <span class="time">{{gameTime.toString().padStart(3, '0')}}</span>
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" />
         <table>
