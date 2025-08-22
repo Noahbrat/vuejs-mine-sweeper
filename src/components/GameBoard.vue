@@ -2,7 +2,8 @@
     <div class="board-container">
         <span class="time">{{gameTime.toString().padStart(3, '0')}}</span>
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
-        <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz" />
+        <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz"
+                           :class="flagIconClass" />
         <table>
             <tr v-for="h in height" :key="h">
                 <Cell v-for="w in width" :key="w"
@@ -15,6 +16,7 @@
                       v-bind:alive="alive"
                       v-bind:victory="victory"
                       v-on:cell-click="onCellClick"
+                      v-on:cell-flag="onCellFlag"
                 />
             </tr>
         </table>
@@ -38,6 +40,7 @@
         numbers: [],
         flags: [],
         isFlagging: false,
+        isShiftHeld: false,
         startTime: 0,
         endTime: 0,
         gameTime: 0,
@@ -62,6 +65,9 @@
       },
       flagToggle() {
         this.isFlagging = !this.isFlagging;
+      },
+      onCellFlag(w, h) {
+        this.onCellClick(w, h, true);
       },
       onCellClick(w, h, isFlag = this.isFlagging) {
         if (w.constructor === Array) {
@@ -200,7 +206,13 @@
         return this.victory ? 'grin-hearts' : (this.alive ? 'smile' : 'angry');
       },
       flagOrMine() {
-        return this.isFlagging ? 'flag' : 'bomb';
+        return (this.isFlagging || this.isShiftHeld) ? 'flag' : 'bomb';
+      },
+      flagIconClass() {
+        if (this.flagOrMine === 'flag') {
+          return this.isShiftHeld ? 'flag-temporary' : 'flag-permanent';
+        }
+        return '';
       },
     },
     created: function() {
@@ -220,6 +232,30 @@
       }
       this.mineCnt = Math.floor((this.width * this.height) * .12);
       this.newGame();
+    },
+    mounted() {
+      this.handleKeyDown = (event) => {
+        if (event.key === 'Shift') {
+          this.isShiftHeld = true;
+        }
+      };
+      this.handleKeyUp = (event) => {
+        if (event.key === 'Shift') {
+          this.isShiftHeld = false;
+        }
+      };
+      this.handleWindowBlur = () => {
+        this.isShiftHeld = false;
+      };
+
+      window.addEventListener('keydown', this.handleKeyDown);
+      window.addEventListener('keyup', this.handleKeyUp);
+      window.addEventListener('blur', this.handleWindowBlur);
+    },
+    beforeUnmount() {
+      window.removeEventListener('keydown', this.handleKeyDown);
+      window.removeEventListener('keyup', this.handleKeyUp);
+      window.removeEventListener('blur', this.handleWindowBlur);
     },
   }
 </script>
@@ -259,5 +295,14 @@
     }
     .fa-grin-hearts {
         color: orangered;
+    }
+    .flag-temporary {
+        opacity: 0.75;
+        transform: scale(1.05);
+        transition: all 200ms ease-in-out;
+    }
+    .flag-permanent {
+        opacity: 1;
+        transition: all 200ms ease-in-out;
     }
 </style>
