@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBomb, faFlag, faSmile, faGrinHearts, faAngry,
@@ -9,10 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faBomb, faFlag, faSmile, faGrinHearts, faAngry,
   faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDiceSix);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-
-Vue.config.productionTip = false;
-
-new Vue({
-  render: h => h(App)
-}).$mount('#app');
+const app = createApp(App);
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.mount('#app');

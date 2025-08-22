@@ -1,5 +1,5 @@
 <template>
-    <td @click="onCellClick()" :class="isClass">
+    <td @click.exact="onCellClick()" @click.shift="onShiftClick()" @contextmenu.prevent="onRightClick()" :class="isClass">
         <font-awesome-icon v-if="isRevealed" :icon="display" class="game-cell" />
     </td>
 </template>
@@ -35,6 +35,16 @@
       onCellClick() {
         if (this.alive) {
           this.$emit('cell-click', [this.w - 1, this.h - 1]);
+        }
+      },
+      onRightClick() {
+        if (this.alive) {
+          this.$emit('cell-flag', [this.w - 1, this.h - 1]);
+        }
+      },
+      onShiftClick() {
+        if (this.alive) {
+          this.$emit('cell-flag', [this.w - 1, this.h - 1]);
         }
       }
     },
