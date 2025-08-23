@@ -22,7 +22,7 @@ This roadmap outlines missing features from classic Minesweeper that could be im
   - [x] Custom: User-defined dimensions and mine count
 
 ### UI/UX Improvements
-- [ ] **Menu System**
+- [x] **Menu System**
   - Game menu with New Game, Settings, Statistics
   - Difficulty selection interface
   - About/Help section
