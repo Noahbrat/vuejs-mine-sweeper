@@ -46,6 +46,7 @@
         endTime: 0,
         gameTime: 0,
         timeout: false,
+        minesPlaced: false,
       }
     },
     props: {
@@ -96,13 +97,16 @@
           flags[h] = !flags[h]
           this.flags.splice(w, 1, flags)
         } else if (!this.flags[w][h] && !this.clicks[w][h]) {
-          let clicks = this.clicks[w]
-          clicks[h] = true
-          this.clicks.splice(w, 1, clicks)
           if (!this.startTime) {
             this.startTime = new Date();
             this.timeout = setInterval(this.setGameTime, 1000);
+            if (!this.minesPlaced) {
+              this.placeMines(w, h);
+            }
           }
+          let clicks = this.clicks[w]
+          clicks[h] = true
+          this.clicks.splice(w, 1, clicks)
           if (this.mines[w][h]) {
             this.alive = false;
             this.endTime = new Date();
@@ -151,18 +155,7 @@
         this.startTime = 0;
         this.endTime = 0;
         this.gameTime = 0;
-        let assignedCnt = 0;
-        while (assignedCnt < this.mineCnt) {
-          const w = Math.floor(Math.random() * this.width);
-          const h = Math.floor(Math.random() * this.height);
-          if (!this.mines[w][h]) {
-            let mines = this.mines[w];
-            assignedCnt++;
-            mines[h] = true;
-            this.mines.splice(w, 1, mines);
-            this.incrementAround(w, h);
-          }
-        }
+        this.minesPlaced = false;
       },
       aroundCell: function (w, h) {
         let around = [];
@@ -197,6 +190,21 @@
         this.aroundCell(w, h).forEach(function (cell) {
           that.numbers[cell.w][cell.h]++;
         });
+      },
+      placeMines(excludeW, excludeH) {
+        let assignedCnt = 0;
+        while (assignedCnt < this.mineCnt) {
+          const w = Math.floor(Math.random() * this.width);
+          const h = Math.floor(Math.random() * this.height);
+          if (!this.mines[w][h] && !(w === excludeW && h === excludeH)) {
+            let mines = this.mines[w];
+            assignedCnt++;
+            mines[h] = true;
+            this.mines.splice(w, 1, mines);
+            this.incrementAround(w, h);
+          }
+        }
+        this.minesPlaced = true;
       },
     },
     computed: {

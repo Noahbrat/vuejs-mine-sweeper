@@ -5,12 +5,12 @@ This roadmap outlines missing features from classic Minesweeper that could be im
 ## 🔥 High Priority Features
 
 ### Essential Game Features
-- [ ] **Mine Counter Display**
+- [x] **Mine Counter Display**
   - Show remaining mines (total mines - flags placed)
   - Update counter in real-time as flags are placed/removed
   - Display prominently next to timer
 
-- [ ] **First Click Safety** 
+- [x] **First Click Safety** 
   - Guarantee first click is never a mine
   - Regenerate board if first click hits a mine
   - Essential for fair gameplay
