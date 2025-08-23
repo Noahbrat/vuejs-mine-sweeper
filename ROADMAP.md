@@ -15,11 +15,11 @@ This roadmap outlines missing features from classic Minesweeper that could be im
   - Regenerate board if first click hits a mine
   - Essential for fair gameplay
 
-- [ ] **Difficulty Levels**
-  - [ ] Beginner: 9×9 grid, 10 mines
-  - [ ] Intermediate: 16×16 grid, 40 mines  
-  - [ ] Expert: 30×16 grid, 99 mines
-  - [ ] Custom: User-defined dimensions and mine count
+- [x] **Difficulty Levels**
+  - [x] Beginner: 9×9 grid, 10 mines
+  - [x] Intermediate: 16×16 grid, 40 mines  
+  - [x] Expert: 30×16 grid, 99 mines
+  - [x] Custom: User-defined dimensions and mine count
 
 ### UI/UX Improvements
 - [ ] **Menu System**

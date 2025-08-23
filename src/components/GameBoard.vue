@@ -52,6 +52,7 @@
     props: {
       width: Number,
       height: Number,
+      mineCount: Number,
     },
     components: {
       Cell
@@ -253,7 +254,7 @@
           this.flags[w] = [];
         }
       }
-      this.mineCnt = Math.floor((this.width * this.height) * .12);
+      this.mineCnt = this.mineCount;
       this.newGame();
     },
     mounted() {
