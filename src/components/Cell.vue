@@ -116,4 +116,75 @@
     .fa-dice-six {
         color: mediumvioletred;
     }
+
+    /* Theme-specific Cell styles */
+    .theme-modern td {
+        background-color: #f7fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .theme-modern td:hover {
+        background-color: #edf2f7;
+        transform: scale(1.02);
+    }
+
+    .theme-modern td.clicked {
+        background-color: #e2e8f0;
+        border: 1px solid #cbd5e0;
+    }
+
+    .theme-modern td.mine {
+        background-color: #feb2b2;
+        border: 1px solid #f56565;
+    }
+
+    .theme-dark td {
+        background-color: #4a5568;
+        border: 1px solid #2d3748;
+        color: #e2e8f0;
+    }
+
+    .theme-dark td:hover {
+        background-color: #2d3748;
+    }
+
+    .theme-dark td.clicked {
+        background-color: #2d3748;
+        border: 1px solid #1a202c;
+    }
+
+    .theme-dark td.mine {
+        background-color: #e53e3e;
+        border: 1px solid #c53030;
+    }
+
+    .theme-dark .flagged {
+        color: #d53f8c;
+    }
+
+    .theme-dark .fa-dice-one {
+        color: #48bb78;
+    }
+
+    .theme-dark .fa-dice-two {
+        color: #38b2ac;
+    }
+
+    .theme-dark .fa-dice-three {
+        color: #4299e1;
+    }
+
+    .theme-dark .fa-dice-four {
+        color: #9f7aea;
+    }
+
+    .theme-dark .fa-dice-five {
+        color: #ed64a6;
+    }
+
+    .theme-dark .fa-dice-six {
+        color: #f687b3;
+    }
 </style>

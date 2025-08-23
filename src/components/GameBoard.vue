@@ -1,6 +1,7 @@
 <template>
     <div class="board-container">
-        <span class="time">{{gameTime.toString().padStart(3, '0')}}</span>
+        <span v-if="settings.showMineCount" class="mine-count">{{remainingMines.toString().padStart(3, '0')}}</span>
+        <span v-if="settings.showTimer" class="time">{{gameTime.toString().padStart(3, '0')}}</span>
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz"
                            :class="flagIconClass" />
@@ -45,11 +46,22 @@
         endTime: 0,
         gameTime: 0,
         timeout: false,
+        minesPlaced: false,
       }
     },
     props: {
       width: Number,
       height: Number,
+      mineCount: Number,
+      settings: {
+        type: Object,
+        default: () => ({
+          autoFlag: false,
+          showTimer: true,
+          showMineCount: true,
+          theme: 'classic'
+        })
+      }
     },
     components: {
       Cell
@@ -95,19 +107,23 @@
           flags[h] = !flags[h]
           this.flags.splice(w, 1, flags)
         } else if (!this.flags[w][h] && !this.clicks[w][h]) {
-          let clicks = this.clicks[w]
-          clicks[h] = true
-          this.clicks.splice(w, 1, clicks)
           if (!this.startTime) {
             this.startTime = new Date();
             this.timeout = setInterval(this.setGameTime, 1000);
+            if (!this.minesPlaced) {
+              this.placeMines(w, h);
+            }
           }
+          let clicks = this.clicks[w]
+          clicks[h] = true
+          this.clicks.splice(w, 1, clicks)
           if (this.mines[w][h]) {
             this.alive = false;
             this.endTime = new Date();
             if (this.timeout) {
               clearInterval(this.timeout);
             }
+            this.$emit('game-end', { won: false, time: this.gameTime });
           } else {
             this.revealed++;
             if (this.revealed === this.remaining) {
@@ -116,6 +132,7 @@
               if (this.timeout) {
                 clearInterval(this.timeout);
               }
+              this.$emit('game-end', { won: true, time: this.gameTime });
             } else if (this.numbers[w][h] === 0) {
               this.aroundCell(w, h).forEach(function (cell) {
                 if (!that.clicks[cell.w][cell.h]) {
@@ -150,18 +167,7 @@
         this.startTime = 0;
         this.endTime = 0;
         this.gameTime = 0;
-        let assignedCnt = 0;
-        while (assignedCnt < this.mineCnt) {
-          const w = Math.floor(Math.random() * this.width);
-          const h = Math.floor(Math.random() * this.height);
-          if (!this.mines[w][h]) {
-            let mines = this.mines[w];
-            assignedCnt++;
-            mines[h] = true;
-            this.mines.splice(w, 1, mines);
-            this.incrementAround(w, h);
-          }
-        }
+        this.minesPlaced = false;
       },
       aroundCell: function (w, h) {
         let around = [];
@@ -197,6 +203,21 @@
           that.numbers[cell.w][cell.h]++;
         });
       },
+      placeMines(excludeW, excludeH) {
+        let assignedCnt = 0;
+        while (assignedCnt < this.mineCnt) {
+          const w = Math.floor(Math.random() * this.width);
+          const h = Math.floor(Math.random() * this.height);
+          if (!this.mines[w][h] && !(w === excludeW && h === excludeH)) {
+            let mines = this.mines[w];
+            assignedCnt++;
+            mines[h] = true;
+            this.mines.splice(w, 1, mines);
+            this.incrementAround(w, h);
+          }
+        }
+        this.minesPlaced = true;
+      },
     },
     computed: {
       remaining() {
@@ -214,6 +235,20 @@
         }
         return '';
       },
+      flagCount() {
+        let count = 0;
+        for (let w = 0; w < this.width; w++) {
+          for (let h = 0; h < this.height; h++) {
+            if (this.flags[w] && this.flags[w][h]) {
+              count++;
+            }
+          }
+        }
+        return count;
+      },
+      remainingMines() {
+        return Math.max(0, this.mineCnt - this.flagCount);
+      },
     },
     created: function() {
       for (let w = 0; w < this.width; w++) {
@@ -230,7 +265,7 @@
           this.flags[w] = [];
         }
       }
-      this.mineCnt = Math.floor((this.width * this.height) * .12);
+      this.mineCnt = this.mineCount;
       this.newGame();
     },
     mounted() {
@@ -282,6 +317,14 @@
         display: inline-block;
         vertical-align: text-top;
     }
+    .mine-count {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 36px;
+        margin: -30px 10px 0;
+        display: inline-block;
+        vertical-align: text-top;
+        color: #d73027;
+    }
     .fa-flag {
         color: purple;
     }
@@ -304,5 +347,83 @@
     .flag-permanent {
         opacity: 1;
         transition: all 200ms ease-in-out;
+    }
+
+    /* Theme-specific GameBoard styles */
+    .theme-modern .board-container {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .theme-modern .butz {
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .theme-modern .butz:hover {
+        transform: scale(1.1);
+    }
+
+    .theme-modern .time,
+    .theme-modern .mine-count {
+        color: #4a5568;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .theme-dark .board-container {
+        background: #2d3748;
+        border: 2px solid #4a5568;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-dark .time,
+    .theme-dark .mine-count {
+        color: #e2e8f0;
+        background: #1a202c;
+        border: 1px solid #4a5568;
+        border-radius: 4px;
+        padding: 4px 8px;
+    }
+
+    .theme-dark .butz {
+        color: #e2e8f0;
+        filter: brightness(1.2);
+    }
+
+    .theme-dark .fa-angry {
+        color: #f56565;
+    }
+
+    .theme-dark .fa-smile {
+        color: #ed8936;
+    }
+
+    .theme-dark .fa-grin-hearts {
+        color: #f6ad55;
+    }
+
+    .theme-dark h2 {
+        color: #48bb78;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        background: rgba(72, 187, 120, 0.1);
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid #48bb78;
+    }
+
+    .theme-modern h2 {
+        color: #667eea;
+        text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+        background: rgba(102, 126, 234, 0.1);
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid rgba(102, 126, 234, 0.3);
     }
 </style>
