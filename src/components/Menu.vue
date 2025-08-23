@@ -287,6 +287,8 @@ export default {
   mounted() {
     this.loadSettings();
     this.loadStatistics();
+    // Emit settings on mount to ensure theme is applied
+    this.$emit('settings-changed', this.settings);
   }
 }
 </script>
@@ -543,5 +545,155 @@ export default {
 
 .rule-section li {
   margin: 4px 0;
+}
+
+/* Theme-specific Menu styles */
+.theme-modern .menu-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.theme-modern .menu-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+  border-bottom: none;
+}
+
+.theme-modern .close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 6px;
+}
+
+.theme-modern .close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.theme-modern .tab-btn {
+  background: rgba(102, 126, 234, 0.1);
+  border: none;
+  border-radius: 8px 8px 0 0;
+  margin: 0 2px;
+  transition: all 0.2s ease;
+}
+
+.theme-modern .tab-btn:hover {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.theme-modern .tab-btn.active {
+  background: white;
+  color: #4a5568;
+}
+
+.theme-modern .primary-btn {
+  background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.theme-modern .stat-card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.theme-dark .menu-container {
+  background: #2d3748;
+  border: 2px solid #4a5568;
+  color: #e2e8f0;
+}
+
+.theme-dark .menu-header {
+  background: #1a202c;
+  border-bottom: 2px solid #4a5568;
+  color: #e2e8f0;
+}
+
+.theme-dark .close-btn {
+  background: #4a5568;
+  border: 2px solid #2d3748;
+  color: #e2e8f0;
+}
+
+.theme-dark .close-btn:hover {
+  background: #2d3748;
+}
+
+.theme-dark .menu-tabs {
+  background: #374151;
+}
+
+.theme-dark .tab-btn {
+  background: #374151;
+  color: #d1d5db;
+  border-right: 1px solid #4a5568;
+}
+
+.theme-dark .tab-btn:hover {
+  background: #4b5563;
+}
+
+.theme-dark .tab-btn.active {
+  background: #2d3748;
+  color: #e2e8f0;
+  border-bottom: 2px solid #2d3748;
+}
+
+.theme-dark .tab-content h3,
+.theme-dark .tab-content h4 {
+  color: #f7fafc;
+}
+
+.theme-dark .settings-group h4 {
+  border-bottom: 1px solid #4a5568;
+}
+
+.theme-dark .setting-item select,
+.theme-dark .setting-item input {
+  background: #1a202c;
+  border: 1px solid #4a5568;
+  color: #e2e8f0;
+}
+
+.theme-dark .stat-card {
+  background: #374151;
+  border: 1px solid #4a5568;
+}
+
+.theme-dark .stat-number {
+  color: #f7fafc;
+}
+
+.theme-dark .stat-label {
+  color: #d1d5db;
+}
+
+.theme-dark .primary-btn {
+  background: #805ad5;
+  border: 2px solid #6b46c1;
+}
+
+.theme-dark .primary-btn:hover {
+  background: #6b46c1;
+}
+
+.theme-dark .danger-btn {
+  background: #e53e3e;
+  border: 2px solid #c53030;
+}
+
+.theme-dark .danger-btn:hover {
+  background: #c53030;
+}
+
+.theme-dark .help-content {
+  color: #d1d5db;
 }
 </style>

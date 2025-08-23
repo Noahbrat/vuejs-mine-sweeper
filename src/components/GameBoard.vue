@@ -348,4 +348,82 @@
         opacity: 1;
         transition: all 200ms ease-in-out;
     }
+
+    /* Theme-specific GameBoard styles */
+    .theme-modern .board-container {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .theme-modern .butz {
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .theme-modern .butz:hover {
+        transform: scale(1.1);
+    }
+
+    .theme-modern .time,
+    .theme-modern .mine-count {
+        color: #4a5568;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .theme-dark .board-container {
+        background: #2d3748;
+        border: 2px solid #4a5568;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-dark .time,
+    .theme-dark .mine-count {
+        color: #e2e8f0;
+        background: #1a202c;
+        border: 1px solid #4a5568;
+        border-radius: 4px;
+        padding: 4px 8px;
+    }
+
+    .theme-dark .butz {
+        color: #e2e8f0;
+        filter: brightness(1.2);
+    }
+
+    .theme-dark .fa-angry {
+        color: #f56565;
+    }
+
+    .theme-dark .fa-smile {
+        color: #ed8936;
+    }
+
+    .theme-dark .fa-grin-hearts {
+        color: #f6ad55;
+    }
+
+    .theme-dark h2 {
+        color: #48bb78;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        background: rgba(72, 187, 120, 0.1);
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid #48bb78;
+    }
+
+    .theme-modern h2 {
+        color: #667eea;
+        text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+        background: rgba(102, 126, 234, 0.1);
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid rgba(102, 126, 234, 0.3);
+    }
 </style>

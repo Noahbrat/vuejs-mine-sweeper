@@ -271,4 +271,106 @@ export default {
   text-align: center;
   font-weight: bold;
 }
+
+/* Theme-specific DifficultySelector styles */
+.theme-modern .difficulty-selector {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.theme-modern .difficulty-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.theme-modern .difficulty-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.theme-modern .difficulty-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: 1px solid #667eea;
+}
+
+.theme-modern .custom-settings {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 8px;
+}
+
+.theme-modern .apply-btn {
+  background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.theme-dark .difficulty-selector {
+  background: #2d3748;
+  border: 2px solid #4a5568;
+  color: #e2e8f0;
+}
+
+.theme-dark .difficulty-btn {
+  background: #4a5568;
+  border: 2px solid #2d3748;
+  color: #e2e8f0;
+}
+
+.theme-dark .difficulty-btn:hover {
+  background: #2d3748;
+}
+
+.theme-dark .difficulty-btn.active {
+  background: #805ad5;
+  border: 2px solid #6b46c1;
+  color: white;
+}
+
+.theme-dark .difficulty-details {
+  color: #d1d5db;
+}
+
+.theme-dark .custom-settings {
+  background: #374151;
+  border: 1px solid #4a5568;
+}
+
+.theme-dark .input-group label {
+  color: #f7fafc;
+}
+
+.theme-dark .input-group input {
+  background: #1a202c;
+  border: 1px solid #4a5568;
+  color: #e2e8f0;
+}
+
+.theme-dark .apply-btn {
+  background: #805ad5;
+  border: 2px solid #6b46c1;
+  color: white;
+}
+
+.theme-dark .apply-btn:hover:not(:disabled) {
+  background: #6b46c1;
+}
+
+.theme-dark .apply-btn:disabled {
+  background: #4a5568;
+  color: #a0aec0;
+  border: 2px solid #2d3748;
+}
+
+.theme-dark .validation-error {
+  color: #f56565;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="['theme-' + gameSettings.theme]">
     <div class="game-header">
       <h1>Minesweeper</h1>
       <button @click="showMenu = true" class="menu-btn">
@@ -65,15 +65,23 @@ export default {
     },
     onSettingsChanged(settings) {
       this.gameSettings = { ...settings };
+      this.updateBodyTheme();
     },
     onGameEnd(result) {
       if (this.$refs.menu) {
         this.$refs.menu.updateStatistics(result);
       }
+    },
+    updateBodyTheme() {
+      // Remove all theme classes from body
+      document.body.classList.remove('theme-classic', 'theme-modern', 'theme-dark');
+      // Add current theme class to body
+      document.body.classList.add('theme-' + this.gameSettings.theme);
     }
   },
   mounted() {
     this.showMenu = true;
+    this.updateBodyTheme();
   }
 }
 </script>
@@ -155,5 +163,125 @@ h1 {
 
 .start-btn:active {
   border-style: inset;
+}
+
+/* Theme Styles */
+/* Classic Theme (Default) */
+.theme-classic {
+  background: #c0c0c0;
+}
+
+.theme-classic h1 {
+  color: #2c3e50;
+}
+
+/* Modern Theme */
+.theme-modern {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.theme-modern #app {
+  background: transparent;
+}
+
+.theme-modern h1 {
+  color: #2d3748;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.theme-modern .menu-btn {
+  background: #4299e1;
+  color: white;
+  border: 2px solid #3182ce;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.theme-modern .menu-btn:hover {
+  background: #3182ce;
+  transform: translateY(-1px);
+}
+
+.theme-modern .menu-btn:active {
+  border-style: solid;
+  transform: translateY(0);
+}
+
+.theme-modern .start-btn {
+  background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.theme-modern .start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.theme-modern .start-btn:active {
+  border-style: solid;
+  transform: translateY(-1px);
+}
+
+/* Dark Theme */
+.theme-dark {
+  background: #1a202c;
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+/* Global body styles for themes */
+body.theme-dark {
+  background: #1a202c !important;
+  margin: 0;
+  padding: 0;
+}
+
+body.theme-modern {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+  margin: 0;
+  padding: 0;
+}
+
+body.theme-classic {
+  background: #c0c0c0 !important;
+  margin: 0;
+  padding: 0;
+}
+
+.theme-dark #app {
+  background: transparent;
+}
+
+.theme-dark h1 {
+  color: #f7fafc;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .menu-btn {
+  background: #4a5568;
+  color: #e2e8f0;
+  border: 2px solid #2d3748;
+}
+
+.theme-dark .menu-btn:hover {
+  background: #2d3748;
+}
+
+.theme-dark .no-game {
+  color: #a0aec0;
+}
+
+.theme-dark .start-btn {
+  background: #805ad5;
+  border: 2px solid #6b46c1;
+}
+
+.theme-dark .start-btn:hover {
+  background: #6b46c1;
 }
 </style>
