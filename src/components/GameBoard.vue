@@ -1,7 +1,7 @@
 <template>
     <div class="board-container">
-        <span class="mine-count">{{remainingMines.toString().padStart(3, '0')}}</span>
-        <span class="time">{{gameTime.toString().padStart(3, '0')}}</span>
+        <span v-if="settings.showMineCount" class="mine-count">{{remainingMines.toString().padStart(3, '0')}}</span>
+        <span v-if="settings.showTimer" class="time">{{gameTime.toString().padStart(3, '0')}}</span>
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz"
                            :class="flagIconClass" />
@@ -53,6 +53,15 @@
       width: Number,
       height: Number,
       mineCount: Number,
+      settings: {
+        type: Object,
+        default: () => ({
+          autoFlag: false,
+          showTimer: true,
+          showMineCount: true,
+          theme: 'classic'
+        })
+      }
     },
     components: {
       Cell
@@ -114,6 +123,7 @@
             if (this.timeout) {
               clearInterval(this.timeout);
             }
+            this.$emit('game-end', { won: false, time: this.gameTime });
           } else {
             this.revealed++;
             if (this.revealed === this.remaining) {
@@ -122,6 +132,7 @@
               if (this.timeout) {
                 clearInterval(this.timeout);
               }
+              this.$emit('game-end', { won: true, time: this.gameTime });
             } else if (this.numbers[w][h] === 0) {
               this.aroundCell(w, h).forEach(function (cell) {
                 if (!that.clicks[cell.w][cell.h]) {
