@@ -1,5 +1,6 @@
 <template>
     <div class="board-container">
+        <span class="mine-count">{{remainingMines.toString().padStart(3, '0')}}</span>
         <span class="time">{{gameTime.toString().padStart(3, '0')}}</span>
         <font-awesome-icon @click="newGame" :icon="smiley" class="butz" />
         <font-awesome-icon @click="flagToggle" :icon="flagOrMine" class="butz"
@@ -214,6 +215,20 @@
         }
         return '';
       },
+      flagCount() {
+        let count = 0;
+        for (let w = 0; w < this.width; w++) {
+          for (let h = 0; h < this.height; h++) {
+            if (this.flags[w] && this.flags[w][h]) {
+              count++;
+            }
+          }
+        }
+        return count;
+      },
+      remainingMines() {
+        return Math.max(0, this.mineCnt - this.flagCount);
+      },
     },
     created: function() {
       for (let w = 0; w < this.width; w++) {
@@ -281,6 +296,14 @@
         margin: -30px 10px 0;
         display: inline-block;
         vertical-align: text-top;
+    }
+    .mine-count {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 36px;
+        margin: -30px 10px 0;
+        display: inline-block;
+        vertical-align: text-top;
+        color: #d73027;
     }
     .fa-flag {
         color: purple;
