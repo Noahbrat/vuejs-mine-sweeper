@@ -122,7 +122,7 @@
           <h3>How to Play</h3>
           <div class="help-content">
             <div class="rule-section">
-              <h4><font-awesome-icon icon="target" /> Objective</h4>
+              <h4><font-awesome-icon icon="bullseye" /> Objective</h4>
               <p>Clear all squares without mines. Numbers show how many mines are adjacent to that square.</p>
             </div>
             

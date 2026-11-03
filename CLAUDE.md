@@ -54,6 +54,6 @@ GameBoard manages all game state through reactive data properties:
 
 ### Dependencies
 - Vue 3.5
-- FontAwesome 6.7.2 (core, solid icons, Vue 3 integration)
+- FontAwesome 7 (core, solid icons, Vue 3 integration)
 - Vite 8 with @vitejs/plugin-vue (`vite.config.js`; `index.html` lives at the project root)
 - ESLint 10 flat config (`eslint.config.js`) with eslint-plugin-vue `flat/essential` and ESLint recommended rules
