@@ -4,13 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Vue.js 3 Minesweeper game built with Vue CLI 5. The application uses FontAwesome icons for game elements and implements a classic minesweeper experience with timing, flagging, and auto-reveal functionality.
+This is a Vue.js 3 Minesweeper game built with Vite. The application uses FontAwesome icons for game elements and implements a classic minesweeper experience with timing, flagging, and auto-reveal functionality.
 
 ## Common Commands
 
 ### Development
-- `npm run serve` - Start development server with hot reload
+- `npm run serve` - Start Vite dev server with hot reload (http://localhost:8080)
 - `npm run build` - Build for production (outputs to dist/)
+- `npm run preview` - Serve the production build locally
 - `npm run lint` - Run ESLint to check code style
 
 ### Setup
@@ -52,7 +53,7 @@ GameBoard manages all game state through reactive data properties:
 - Color-coded numbers using dice icons (green=1, teal=2, blue=3, etc.)
 
 ### Dependencies
-- Vue 3.5.19
+- Vue 3.5
 - FontAwesome 6.7.2 (core, solid icons, Vue 3 integration)
-- Vue CLI 5 with Babel and ESLint
-- Uses @babel/eslint-parser with Vue/essential and ESLint recommended rules
+- Vite 8 with @vitejs/plugin-vue (`vite.config.js`; `index.html` lives at the project root)
+- ESLint 10 flat config (`eslint.config.js`) with eslint-plugin-vue `flat/essential` and ESLint recommended rules
